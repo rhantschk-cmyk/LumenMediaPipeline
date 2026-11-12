@@ -12,6 +12,7 @@ For development without installation:
 
 ```bash
 python -m unittest discover -s tests -v
+PYTHONPATH=src python -m lumen_media --version
 PYTHONPATH=src python -m lumen_media init demo
 ```
 
@@ -80,6 +81,7 @@ It never stores or prints the token. If `lumen-landrop` is not installed, the co
 ## Commands
 
 ```text
+lumen-media --version
 lumen-media init [PATH] [--profile lumen]
 lumen-media status [PATH]
 lumen-media action set NAME COMMAND [PATH]

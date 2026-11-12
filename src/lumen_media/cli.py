@@ -9,6 +9,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+from . import __version__
 from .project import (
     PROJECT_DIRECTORIES,
     ProjectError,
@@ -23,6 +24,7 @@ from .project import (
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="lumen-media", description="Local-first media project pipeline.")
+    parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     sub = parser.add_subparsers(dest="command", required=True)
 
     init = sub.add_parser("init", help="create a media project")
