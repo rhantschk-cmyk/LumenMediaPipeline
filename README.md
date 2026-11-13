@@ -60,6 +60,8 @@ Actions are intentionally user-defined because available media tools differ by m
 ```bash
 lumen-media action set thumbnails "python tools/thumbnails.py inbox exports" .
 lumen-media action run thumbnails .
+# Remove an obsolete saved command without touching project media.
+lumen-media action remove thumbnails .
 ```
 
 ## Optional LumenLanDrop integration
@@ -85,6 +87,7 @@ lumen-media --version
 lumen-media init [PATH] [--profile lumen]
 lumen-media status [PATH]
 lumen-media action set NAME COMMAND [PATH]
+lumen-media action remove NAME [PATH]
 lumen-media action run NAME [PATH]
 lumen-media sync-exports [PATH] --to URL --token TOKEN
 ```

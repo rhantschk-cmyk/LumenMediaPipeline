@@ -40,6 +40,9 @@ def _parser() -> argparse.ArgumentParser:
     action_set.add_argument("name")
     action_set.add_argument("action_value")
     action_set.add_argument("path", nargs="?", default=".")
+    action_remove = action_sub.add_parser("remove", help="remove a stored action")
+    action_remove.add_argument("name")
+    action_remove.add_argument("path", nargs="?", default=".")
     action_run = action_sub.add_parser("run", help="run an action from the project root")
     action_run.add_argument("name")
     action_run.add_argument("path", nargs="?", default=".")
@@ -77,6 +80,15 @@ def _set_action(project: Path, config: dict, name: str, command: str) -> None:
     config["actions"][name] = {"argv": argv}
     write_config(project, config)
     print(f"Configured action {name!r} in {project}")
+
+
+def _remove_action(project: Path, config: dict, name: str) -> None:
+    validate_action_name(name)
+    if name not in config["actions"]:
+        raise ProjectError(f"Action {name!r} is not configured.")
+    del config["actions"][name]
+    write_config(project, config)
+    print(f"Removed action {name!r} from {project}")
 
 
 def _run_action(project: Path, config: dict, name: str) -> int:
@@ -117,6 +129,9 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         if args.command == "action" and args.action_command == "set":
             _set_action(project, config, args.name, args.action_value)
+            return 0
+        if args.command == "action" and args.action_command == "remove":
+            _remove_action(project, config, args.name)
             return 0
         if args.command == "action" and args.action_command == "run":
             return _run_action(project, config, args.name)
