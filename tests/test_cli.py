@@ -23,6 +23,25 @@ class CliTests(unittest.TestCase):
         self.assertEqual(raised.exception.code, 0)
         self.assertEqual(output.getvalue(), f"lumen-media {__version__}\n")
 
+    def test_action_list_prints_configured_action_names_in_sorted_order(self):
+        with tempfile.TemporaryDirectory() as directory:
+            project = Path(directory) / "demo"
+            self.assertEqual(main(["init", str(project)]), 0)
+            self.assertEqual(
+                main(["action", "set", "zebra", "python -V", str(project)]),
+                0,
+            )
+            self.assertEqual(
+                main(["action", "set", "alpha", "python -c pass", str(project)]),
+                0,
+            )
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                self.assertEqual(main(["action", "list", str(project)]), 0)
+
+            self.assertEqual(output.getvalue(), "alpha\nzebra\n")
+
     def test_action_remove_deletes_a_configured_action(self):
         with tempfile.TemporaryDirectory() as directory:
             project = Path(directory) / "demo"
