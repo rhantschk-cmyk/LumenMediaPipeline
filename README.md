@@ -21,7 +21,11 @@ PYTHONPATH=src python -m lumen_media init demo
 ```bash
 # Create a project using the default, explicit "lumen" profile.
 lumen-media init ~/Media/my-film
+```
 
+`init` never overwrites an existing project configuration and stops with a clear error if its target path is an existing file.
+
+```bash
 # Inspect its paths, selected profile, profile defaults, and configured actions.
 lumen-media status ~/Media/my-film
 

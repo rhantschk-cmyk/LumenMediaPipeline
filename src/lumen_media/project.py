@@ -59,6 +59,10 @@ def init_project(value: str | Path, profile: str = PROFILE_LUMEN) -> Path:
         raise ProjectError(
             "A Lumen Media project already exists at {0}".format(project)
         )
+    if project.exists() and not project.is_dir():
+        raise ProjectError(
+            "Project path exists but is not a directory: {0}".format(project)
+        )
 
     project.mkdir(parents=True, exist_ok=True)
     for name in PROJECT_DIRECTORIES:

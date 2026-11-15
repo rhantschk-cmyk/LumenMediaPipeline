@@ -23,6 +23,21 @@ class CliTests(unittest.TestCase):
         self.assertEqual(raised.exception.code, 0)
         self.assertEqual(output.getvalue(), f"lumen-media {__version__}\n")
 
+    def test_init_reports_a_clear_error_when_target_is_a_file(self):
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "not-a-project-directory"
+            target.write_text("keep this file", encoding="utf-8")
+            errors = io.StringIO()
+
+            with contextlib.redirect_stderr(errors):
+                self.assertEqual(main(["init", str(target)]), 2)
+
+            self.assertEqual(
+                errors.getvalue(),
+                f"lumen-media: Project path exists but is not a directory: {target}\n",
+            )
+            self.assertEqual(target.read_text(encoding="utf-8"), "keep this file")
+
     def test_action_list_prints_configured_action_names_in_sorted_order(self):
         with tempfile.TemporaryDirectory() as directory:
             project = Path(directory) / "demo"
