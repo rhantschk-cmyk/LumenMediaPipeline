@@ -64,10 +64,11 @@ def init_project(value: str | Path, profile: str = PROFILE_LUMEN) -> Path:
             "Project path exists but is not a directory: {0}".format(project)
         )
 
+    config = new_config(profile)
     project.mkdir(parents=True, exist_ok=True)
     for name in PROJECT_DIRECTORIES:
         (project / name).mkdir(exist_ok=True)
-    write_config(project, new_config(profile))
+    write_config(project, config)
     return project
 
 

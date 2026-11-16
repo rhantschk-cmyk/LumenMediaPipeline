@@ -50,7 +50,7 @@ archive/     # completed source material and old deliverables
 
 ## Profiles and platform behavior
 
-`init` defaults to the explicit `lumen` profile; use `--profile lumen` to state it in scripts.
+`init` defaults to the explicit `lumen` profile; use `--profile lumen` to state it in scripts. `lumen` is currently the only supported profile; unsupported profiles are rejected before `init_project()` creates any directories, including when using the Python API.
 The profile provides practical, portable defaults for a Lumen/Arch workstation: organized working paths and conventional export preferences (`h264/aac`, `crf=18`, `preset=medium`). These are configuration metadata, not installed commands. Lumen Media Pipeline does not call `pacman`, assume `/usr/bin`, modify the OS, or require an Arch-only tool, so the same project works on macOS, NixOS, and other Linux systems.
 
 ```bash

@@ -22,6 +22,15 @@ class ProjectTests(unittest.TestCase):
             with self.assertRaises(ProjectError):
                 init_project(project)
 
+    def test_init_rejects_unsupported_profile_without_creating_directories(self):
+        with tempfile.TemporaryDirectory() as directory:
+            project = Path(directory) / "demo"
+
+            with self.assertRaisesRegex(ProjectError, "Unsupported profile: portable"):
+                init_project(project, profile="portable")
+
+            self.assertFalse(project.exists())
+
     def test_invalid_config_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             project = Path(directory)
